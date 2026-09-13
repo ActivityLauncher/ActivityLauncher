@@ -102,10 +102,15 @@ class UiDevice:
         adb_shell(f"input swipe {start_x} {cy} {end_x} {cy} 500")
 
     def open_app_drawer(self):
+        print("Opening App Drawer...")
+        if self.click(text_contains="Apps list", wait=2):
+            print("Clicked 'Apps list' button!")
+            return
+
         cx = self.w // 2
         start_y = int(self.h * 0.85)
         end_y = int(self.h * 0.2)
-        print(f"Opening App Drawer: swiping up from ({cx}, {start_y}) to ({cx}, {end_y})")
+        print(f"Swiping up to open App Drawer from ({cx}, {start_y}) to ({cx}, {end_y})")
         adb_shell(f"input swipe {cx} {start_y} {cx} {end_y} 300")
 
     def app_start(self, component_name):
