@@ -64,7 +64,7 @@ def adb_install_with_retry(apk_path, retries=5):
     wait_for_package_service()
     for attempt in range(retries):
         print(f"Installing {apk_path} (attempt {attempt+1}/{retries})...")
-        res = adb(f"install -r -g {apk_path}", check=False)
+        res = adb(f"install -r -g -f {apk_path}", check=False)
         if res.returncode == 0:
             print("Installation succeeded!")
             return True
@@ -76,10 +76,10 @@ def adb_install_with_retry(apk_path, retries=5):
             print("PackageManager service not ready yet, waiting 3s...")
             time.sleep(3)
         elif "insufficient_storage" in output or "not enough space" in output:
-            print("Storage issue detected, attempting install with --user 0...")
-            res2 = adb(f"install -r -g --user 0 {apk_path}", check=False)
+            print("Storage issue detected, attempting install with -f --user 0 --bypass-low-target-sdk-block...")
+            res2 = adb(f"install -r -g -f --user 0 --bypass-low-target-sdk-block {apk_path}", check=False)
             if res2.returncode == 0:
-                print("Installation with --user 0 succeeded!")
+                print("Installation with fallback flags succeeded!")
                 return True
             time.sleep(3)
         else:
@@ -244,12 +244,44 @@ def find_apksigner():
     return "apksigner"
 
 
+def find_zipalign():
+    android_home = (
+        os.environ.get("ANDROID_HOME")
+        or os.environ.get("ANDROID_SDK_ROOT")
+        or os.path.expanduser("~/Android/Sdk")
+    )
+    build_tools_dir = os.path.join(android_home, "build-tools")
+    if os.path.exists(build_tools_dir):
+        versions = sorted(os.listdir(build_tools_dir), reverse=True)
+        for ver in versions:
+            path = os.path.join(build_tools_dir, ver, "zipalign")
+            if os.path.exists(path):
+                return path
+
+    which_res = subprocess.run(
+        "which zipalign", shell=True, capture_output=True, text=True
+    )
+    if which_res.returncode == 0:
+        return which_res.stdout.strip()
+    return "zipalign"
+
+
 def strip_signatures_and_resign(apk_path, keystore):
     print(f"Stripping old signatures from {apk_path}...")
     run_cmd(
         f'zip -d {apk_path} "META-INF/*.SF" "META-INF/*.RSA" "META-INF/*.DSA" "META-INF/*.EC" "META-INF/MANIFEST.MF"',
         check=False,
     )
+
+    aligned_apk = apk_path + ".aligned"
+    zipalign = find_zipalign()
+    print(f"Aligning {apk_path} using {zipalign}...")
+    align_res = run_cmd(f'"{zipalign}" -f 4 {apk_path} {aligned_apk}', check=False)
+    if align_res.returncode == 0 and os.path.exists(aligned_apk):
+        run_cmd(f"mv {aligned_apk} {apk_path}")
+    else:
+        print("Warning: zipalign skipped or failed, proceeding with original zip...")
+
     apksigner = find_apksigner()
     sign_cmd = f'"{apksigner}" sign --ks {keystore} --ks-pass pass:android --key-pass pass:android {apk_path}'
     run_cmd(sign_cmd)

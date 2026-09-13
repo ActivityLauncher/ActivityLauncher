@@ -72,7 +72,7 @@ jobs:
         with:
           api-level: "37.0"
           arch: x86_64
-          target: google_apis_ps16k
+          target: google_apis
           profile: small_phone
           disk-size: 8192M
           ram-size: 4096M
@@ -114,7 +114,7 @@ jobs:
         with:
           api-level: "37.0"
           arch: x86_64
-          target: google_apis_ps16k
+          target: google_apis
           profile: small_phone
           disk-size: 8192M
           ram-size: 4096M
