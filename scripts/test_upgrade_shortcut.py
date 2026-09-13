@@ -551,19 +551,20 @@ def find_and_click_shortcut_on_home(d: UiDevice, release_tag: str) -> bool:
         xml = d.dump_hierarchy()
         for match in re.finditer(r"<node ([^>]+)>", xml):
             attr = match.group(1)
-            if "com.android.systemui" in attr:
+            # Ignore System UI or Google search overlays
+            if any(p in attr for p in ["com.android.systemui", "com.google.android.googlequicksearchbox"]):
                 continue
 
             tm = re.search(r'text="([^"]*)"', attr)
             dm = re.search(r'content-desc="([^"]*)"', attr)
-            node_text = (tm.group(1) if tm else "") + " " + (dm.group(1) if dm else "")
+            node_text = (tm.group(1) if tm else "").strip() or (dm.group(1) if dm else "").strip()
 
-            if "settings" in node_text.lower():
+            if node_text.lower() == "settings":
                 bounds_match = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', attr)
                 if bounds_match:
                     x1, y1, x2, y2 = map(int, bounds_match.groups())
                     cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-                    print(f"Found workspace shortcut '{node_text.strip()}' at ({cx}, {cy}) for upgraded v{release_tag}. Clicking...")
+                    print(f"Found workspace shortcut '{node_text}' at ({cx}, {cy}) for upgraded v{release_tag}. Clicking...")
                     adb_shell(f"input tap {cx} {cy}")
                     return True
 
@@ -581,19 +582,19 @@ def find_and_click_shortcut_on_home(d: UiDevice, release_tag: str) -> bool:
     xml = d.dump_hierarchy()
     for match in re.finditer(r"<node ([^>]+)>", xml):
         attr = match.group(1)
-        if "com.android.systemui" in attr:
+        if any(p in attr for p in ["com.android.systemui", "com.google.android.googlequicksearchbox"]):
             continue
 
         tm = re.search(r'text="([^"]*)"', attr)
         dm = re.search(r'content-desc="([^"]*)"', attr)
-        node_text = (tm.group(1) if tm else "") + " " + (dm.group(1) if dm else "")
+        node_text = (tm.group(1) if tm else "").strip() or (dm.group(1) if dm else "").strip()
 
-        if "settings" in node_text.lower():
+        if node_text.lower() == "settings":
             bounds_match = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', attr)
             if bounds_match:
                 x1, y1, x2, y2 = map(int, bounds_match.groups())
                 cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-                print(f"Found shortcut '{node_text.strip()}' in App Drawer at ({cx}, {cy}) for upgraded v{release_tag}. Clicking...")
+                print(f"Found shortcut '{node_text}' in App Drawer at ({cx}, {cy}) for upgraded v{release_tag}. Clicking...")
                 adb_shell(f"input tap {cx} {cy}")
                 return True
 

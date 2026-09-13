@@ -51,7 +51,6 @@ jobs:
           path: app/build/outputs/apk/ossNoads/debug/app-oss-noads-debug.apk
 
   instrumented-tests:
-    if: false
     needs: unit-tests
     runs-on: ubuntu-latest
     steps:
