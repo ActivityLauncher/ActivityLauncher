@@ -70,12 +70,13 @@ jobs:
       - name: Run instrumented integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: "37.0"
+          api-level: "35"
           arch: x86_64
           target: google_apis
           profile: small_phone
-          disk-size: 5120M
+          disk-size: 8192M
           ram-size: 2048M
+          sdcard-path-or-size: 512M
           disable-animations: true
           script: bash scripts/run_instrumented_tests.sh
       - name: Upload screenshots
@@ -112,12 +113,13 @@ jobs:
           APPID: de.szalkowski.activitylauncher.oss
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: "37.0"
+          api-level: "35"
           arch: x86_64
           target: google_apis
           profile: small_phone
-          disk-size: 5120M
+          disk-size: 8192M
           ram-size: 2048M
+          sdcard-path-or-size: 512M
           disable-animations: true
           script: bash scripts/run_upgrade_test.sh
       - name: Upload upgrade test artifacts
