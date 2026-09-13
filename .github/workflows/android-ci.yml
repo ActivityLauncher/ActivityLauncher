@@ -74,6 +74,8 @@ jobs:
           arch: x86_64
           target: google_apis_ps16k
           profile: small_phone
+          disk-size: 4096M
+          ram-size: 4096M
           disable-animations: true
           script: bash scripts/run_instrumented_tests.sh
       - name: Upload screenshots
@@ -114,6 +116,8 @@ jobs:
           arch: x86_64
           target: google_apis_ps16k
           profile: small_phone
+          disk-size: 4096M
+          ram-size: 4096M
           disable-animations: true
           script: bash scripts/run_upgrade_test.sh
       - name: Upload upgrade test artifacts
