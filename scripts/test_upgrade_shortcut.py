@@ -60,13 +60,26 @@ def wait_for_package_service():
     return False
 
 
+def wait_for_activity_registered(component_name):
+    print(f"Waiting for activity component {component_name} to be registered...")
+    for _ in range(15):
+        res = adb_shell(f"pm resolve-activity -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n {component_name}", check=False)
+        if res.returncode == 0 and "Error" not in res.stdout and "No activity found" not in res.stdout:
+            print(f"Activity {component_name} is registered!")
+            return True
+        time.sleep(1)
+    print(f"Warning: Activity {component_name} resolution check timed out")
+    return False
+
+
 def adb_install_with_retry(apk_path, retries=5):
     wait_for_package_service()
     for attempt in range(retries):
         print(f"Installing {apk_path} (attempt {attempt+1}/{retries})...")
-        res = adb(f"install -r -g -f {apk_path}", check=False)
+        res = adb(f"install -r -g -f --bypass-low-target-sdk-block {apk_path}", check=False)
         if res.returncode == 0:
             print("Installation succeeded!")
+            time.sleep(2)
             return True
 
         output = (res.stdout + " " + res.stderr).lower()
@@ -75,11 +88,12 @@ def adb_install_with_retry(apk_path, retries=5):
         if "can't find service: package" in output or "service not ready" in output:
             print("PackageManager service not ready yet, waiting 3s...")
             time.sleep(3)
-        elif "insufficient_storage" in output or "not enough space" in output:
-            print("Storage issue detected, attempting install with -f --user 0 --bypass-low-target-sdk-block...")
+        elif "insufficient_storage" in output or "not enough space" in output or "failed to override installation location" in output:
+            print("Storage issue detected, attempting install with --user 0...")
             res2 = adb(f"install -r -g -f --user 0 --bypass-low-target-sdk-block {apk_path}", check=False)
             if res2.returncode == 0:
                 print("Installation with fallback flags succeeded!")
+                time.sleep(2)
                 return True
             time.sleep(3)
         else:
@@ -166,8 +180,8 @@ class UiDevice:
         for attempt in range(retries):
             xml = self.dump_hierarchy()
             xml_lower = xml.lower()
-            if "isn't responding" in xml_lower or "aerr_" in xml_lower or "stylus" in xml_lower:
-                print("System ANR or overlay detected during click attempt, dismissing...")
+            if "isn't responding" in xml_lower or "aerr_" in xml_lower or "stylus" in xml_lower or "older version" in xml_lower:
+                print("System ANR/overlay/older-sdk warning detected during click attempt, dismissing...")
                 dismiss_system_prompts(self)
                 xml = self.dump_hierarchy()
 
@@ -298,15 +312,22 @@ def setup_environment():
         run_cmd(keytool_cmd)
 
     print(
-        "=== Step 2: Building current version APK with APPID=de.szalkowski.activitylauncher.oss ==="
+        "=== Step 2: Checking downloaded debug APK artifact or building current version APK ==="
     )
+    if not os.path.exists(NEW_APK_PATH):
+        downloaded_debug_apk = "app/build/outputs/apk/ossNoads/debug/debug.apk"
+        if os.path.exists(downloaded_debug_apk):
+            print(f"Found downloaded artifact at {downloaded_debug_apk}, copying to {NEW_APK_PATH}...")
+            os.makedirs(os.path.dirname(NEW_APK_PATH), exist_ok=True)
+            run_cmd(f"cp {downloaded_debug_apk} {NEW_APK_PATH}")
+
     if not os.path.exists(NEW_APK_PATH):
         print(f"Current version APK not found at {NEW_APK_PATH}, building it now...")
         run_cmd(
             "./gradlew app:assembleOssNoadsDebug -PAPPID=de.szalkowski.activitylauncher.oss"
         )
     if not os.path.exists(NEW_APK_PATH):
-        print(f"Error: Current version APK not found at {NEW_APK_PATH} after build!")
+        print(f"Error: Current version APK not found at {NEW_APK_PATH} after build/download!")
         sys.exit(1)
 
     print("=== Step 3: Re-signing current version APK with exact same debug keystore ===")
@@ -404,11 +425,13 @@ def dismiss_system_prompts(d):
                 "aerr_close",
                 "aerr_wait",
                 "wait",
+                "older version",
+                "built for an older",
             ]
         ):
             break
 
-        print(f"System prompt/ANR dialog detected (attempt {loop+1}), clearing...")
+        print(f"System prompt/ANR/older-sdk warning detected (attempt {loop+1}), clearing...")
         if "aerr_close" in xml or "close app" in xml_lower:
             d.click(resource_id="android:id/aerr_close") or d.click(text="Close app")
         elif "aerr_wait" in xml or "wait" in xml_lower:
@@ -417,7 +440,8 @@ def dismiss_system_prompts(d):
         d.click(text_contains="Got it") or \
         d.click(text_contains="SKIP") or \
         d.click(text_contains="Allow") or \
-        d.click(resource_id="android:id/button1")
+        d.click(resource_id="android:id/button1") or \
+        d.click(text="OK")
 
         adb_shell("input keyevent KEYCODE_ESCAPE", check=False)
         time.sleep(1)
@@ -425,22 +449,23 @@ def dismiss_system_prompts(d):
 
 def ensure_app_launched(d, package_name, component_name):
     disable_stylus_and_keyboard_prompts()
+    wait_for_activity_registered(component_name)
     for _ in range(8):
         adb_shell("input keyevent KEYCODE_WAKEUP", check=False)
         adb_shell("wm dismiss-keyguard", check=False)
         d.scroll_down()
         time.sleep(1)
 
-        xml = d.dump_hierarchy()
-        xml_lower = xml.lower()
-        if 'package="android"' in xml or "application error" in xml_lower or "isn't responding" in xml_lower or "stylus" in xml_lower:
-            print("System/ANR/crash dialog detected, attempting to clear...")
-            dismiss_system_prompts(d)
-            adb_shell("input keyevent KEYCODE_BACK", check=False)
-            time.sleep(1)
-
         d.app_start(component_name)
         time.sleep(2)
+
+        xml = d.dump_hierarchy()
+        xml_lower = xml.lower()
+        if 'package="android"' in xml or "application error" in xml_lower or "isn't responding" in xml_lower or "stylus" in xml_lower or "older version" in xml_lower:
+            print("System/ANR/older-sdk warning dialog detected, clearing...")
+            dismiss_system_prompts(d)
+            time.sleep(1)
+
         focus = d.current_package()
         if package_name in focus:
             print(f"App {package_name} is in focus!")
