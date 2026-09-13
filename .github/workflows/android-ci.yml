@@ -72,16 +72,10 @@ jobs:
         with:
           api-level: "37.0"
           arch: x86_64
-          target: android-desktop
+          target: google_apis_ps16k
           profile: small_phone
           disable-animations: true
-          script: |
-            adb shell mkdir -p /storage/emulated/0/screenshots
-            res=0
-            ./gradlew connectedOssNoadsDebugAndroidTest -PAPPID=de.szalkowski.activitylauncher.oss --build-cache || res=$?
-            mkdir -p screenshots
-            adb pull /storage/emulated/0/screenshots/. screenshots/ || true
-            exit $res
+          script: bash scripts/run_instrumented_tests.sh
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -118,10 +112,10 @@ jobs:
         with:
           api-level: "37.0"
           arch: x86_64
-          target: android-desktop
+          target: google_apis_ps16k
           profile: small_phone
           disable-animations: true
-          script: python3 scripts/test_upgrade_shortcut.py
+          script: bash scripts/run_upgrade_test.sh
       - name: Upload upgrade test artifacts
         if: always()
         uses: actions/upload-artifact@v4
