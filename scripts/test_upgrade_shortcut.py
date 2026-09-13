@@ -48,6 +48,47 @@ def adb_shell(cmd, check=True):
     return adb(f'shell "{cmd}"', check=check)
 
 
+def wait_for_package_service():
+    print("Waiting for PackageManager service to be fully ready...")
+    for _ in range(30):
+        res = adb_shell("pm path android", check=False)
+        if res.returncode == 0 and "package:" in res.stdout:
+            print("PackageManager service is ready!")
+            return True
+        time.sleep(2)
+    print("Warning: PackageManager service check timed out")
+    return False
+
+
+def adb_install_with_retry(apk_path, retries=5):
+    wait_for_package_service()
+    for attempt in range(retries):
+        print(f"Installing {apk_path} (attempt {attempt+1}/{retries})...")
+        res = adb(f"install -r -g {apk_path}", check=False)
+        if res.returncode == 0:
+            print("Installation succeeded!")
+            return True
+
+        output = (res.stdout + " " + res.stderr).lower()
+        print(f"Install attempt {attempt+1} output: {res.stdout} {res.stderr}")
+
+        if "can't find service: package" in output or "service not ready" in output:
+            print("PackageManager service not ready yet, waiting 3s...")
+            time.sleep(3)
+        elif "insufficient_storage" in output or "not enough space" in output:
+            print("Storage issue detected, attempting install with --user 0...")
+            res2 = adb(f"install -r -g --user 0 {apk_path}", check=False)
+            if res2.returncode == 0:
+                print("Installation with --user 0 succeeded!")
+                return True
+            time.sleep(3)
+        else:
+            time.sleep(2)
+
+    print(f"ERROR: Failed to install {apk_path} after {retries} attempts!")
+    sys.exit(1)
+
+
 class UiDevice:
     def __init__(self):
         self.w, self.h = self._get_screen_size()
@@ -551,7 +592,6 @@ def find_and_click_shortcut_on_home(d: UiDevice, release_tag: str) -> bool:
         xml = d.dump_hierarchy()
         for match in re.finditer(r"<node ([^>]+)>", xml):
             attr = match.group(1)
-            # Ignore System UI or Google search overlays
             if any(p in attr for p in ["com.android.systemui", "com.google.android.googlequicksearchbox"]):
                 continue
 
@@ -629,7 +669,7 @@ def test_upgrade_flow_for_version(d: UiDevice, release_tag: str):
     uninstall_all_activitylauncher_packages()
 
     print(f"Installing version {release_tag}...")
-    adb(f"install -r -g {tag_debug_apk}")
+    adb_install_with_retry(tag_debug_apk)
 
     packages_v1 = check_installed_packages_and_version()
     print(f"Installed Activity Launcher packages (v{release_tag}): {packages_v1}")
@@ -646,7 +686,7 @@ def test_upgrade_flow_for_version(d: UiDevice, release_tag: str):
     save_snapshot(d, f"{release_tag}_home_screen_before_upgrade")
 
     print(f"Upgrading in-place from v{release_tag} to current debug version...")
-    adb(f"install -r -g {NEW_APK_PATH}")
+    adb_install_with_retry(NEW_APK_PATH)
     time.sleep(2)
 
     packages_v2 = check_installed_packages_and_version()
