@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ master, "feat/**" ]
+    branches: [master, "feat/**"]
   pull_request:
   workflow_dispatch:
 
@@ -21,7 +21,7 @@ jobs:
       - name: set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -38,7 +38,7 @@ jobs:
       - name: set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -59,15 +59,22 @@ jobs:
       - name: set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
       - name: Run instrumented integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: "37.0"
           arch: x86_64
+          target: android-desktop
+          profile: small_phone
           disable-animations: true
           script: |
             adb shell mkdir -p /storage/emulated/0/screenshots
@@ -92,21 +99,28 @@ jobs:
       - name: set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 21
       - name: Download debug APK
         uses: actions/download-artifact@v4
         with:
           name: debug.apk
           path: app/build/outputs/apk/ossNoads/debug/
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
       - name: Run release upgrade & shortcut compatibility test
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPID: de.szalkowski.activitylauncher.oss
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: "37.0"
           arch: x86_64
+          target: android-desktop
+          profile: small_phone
           disable-animations: true
           script: python3 scripts/test_upgrade_shortcut.py
       - name: Upload upgrade test artifacts
