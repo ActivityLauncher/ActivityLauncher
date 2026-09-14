@@ -2,6 +2,7 @@ package de.szalkowski.activitylauncher
 
 import android.content.ComponentName
 import android.content.Intent
+import android.view.View
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -27,6 +28,9 @@ import de.szalkowski.activitylauncher.domain.shortcuts.ShortcutsRepository
 import de.szalkowski.activitylauncher.domain.usecase.launcher.GetActivityIconUseCase
 import de.szalkowski.activitylauncher.domain.usecase.packages.GetPackageIconUseCase
 import de.szalkowski.activitylauncher.entrypoint.MainActivity
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -182,29 +186,29 @@ class IconPickerIntegrationTest {
             Thread.sleep(2000)
 
             // Verify search view is displayed
-            onView(withId(R.id.tiSearch)).check(matches(isDisplayed()))
+            onView(Matchers.allOf<View>(withId(R.id.tiSearch), isDisplayed())).check(matches(isDisplayed()))
 
             // Verify initial count
             onView(withId(R.id.rvIcons)).check(matches(hasMinimumChildCount(3)))
 
             // Filter for "apple"
-            onView(withId(R.id.tiSearch))
+            onView(Matchers.allOf<View>(withId(R.id.tiSearch), isDisplayed()))
                 .perform(click()) // Ensure focus
-            onView(withId(R.id.tiSearch))
+            onView(Matchers.allOf<View>(withId(R.id.tiSearch), isDisplayed()))
                 .perform(typeText("apple"))
 
             Thread.sleep(2000)
             onView(withId(R.id.rvIcons)).check(matches(hasMinimumChildCount(1)))
 
             // Filter for "a" (apple and banana should match)
-            onView(withId(R.id.tiSearch))
+            onView(Matchers.allOf<View>(withId(R.id.tiSearch), isDisplayed()))
                 .perform(replaceText("a"))
 
             Thread.sleep(2000)
             onView(withId(R.id.rvIcons)).check(matches(hasMinimumChildCount(2)))
 
             // Clear filter
-            onView(withId(R.id.tiSearch))
+            onView(org.hamcrest.Matchers.allOf<View>(withId(R.id.tiSearch), isDisplayed()))
                 .perform(replaceText(""))
 
             Thread.sleep(2000)
