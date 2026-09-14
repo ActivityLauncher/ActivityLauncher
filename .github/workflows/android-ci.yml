@@ -67,6 +67,29 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-35-small_phone-${{ runner.os }}
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: "35"
+          arch: x86_64
+          target: google_apis
+          profile: small_phone
+          disk-size: 8192M
+          ram-size: 2048M
+          sdcard-path-or-size: 512M
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
       - name: Run instrumented integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -77,6 +100,8 @@ jobs:
           disk-size: 8192M
           ram-size: 2048M
           sdcard-path-or-size: 512M
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: bash scripts/run_instrumented_tests.sh
       - name: Upload screenshots
@@ -107,6 +132,29 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-35-small_phone-${{ runner.os }}
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: "35"
+          arch: x86_64
+          target: google_apis
+          profile: small_phone
+          disk-size: 8192M
+          ram-size: 2048M
+          sdcard-path-or-size: 512M
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
       - name: Run release upgrade & shortcut compatibility test
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -120,6 +168,8 @@ jobs:
           disk-size: 8192M
           ram-size: 2048M
           sdcard-path-or-size: 512M
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: bash scripts/run_upgrade_test.sh
       - name: Upload upgrade test artifacts

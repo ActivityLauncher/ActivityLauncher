@@ -48,56 +48,15 @@ def adb_shell(cmd, check=True):
     return adb(f'shell "{cmd}"', check=check)
 
 
-def wait_for_package_service():
-    print("Waiting for PackageManager service to be fully ready...")
-    for _ in range(30):
-        res = adb_shell("pm path android", check=False)
-        if res.returncode == 0 and "package:" in res.stdout:
-            print("PackageManager service is ready!")
-            return True
-        time.sleep(2)
-    print("Warning: PackageManager service check timed out")
-    return False
-
-
-def wait_for_activity_registered(component_name):
-    print(f"Waiting for activity component {component_name} to be registered...")
-    for _ in range(15):
-        res = adb_shell(f"pm resolve-activity -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n {component_name}", check=False)
-        if res.returncode == 0 and "Error" not in res.stdout and "No activity found" not in res.stdout:
-            print(f"Activity {component_name} is registered!")
-            return True
-        time.sleep(1)
-    print(f"Warning: Activity {component_name} resolution check timed out")
-    return False
-
-
 def adb_install_with_retry(apk_path, retries=5):
-    wait_for_package_service()
     for attempt in range(retries):
         print(f"Installing {apk_path} (attempt {attempt+1}/{retries})...")
-        res = adb(f"install -r -g -f --bypass-low-target-sdk-block {apk_path}", check=False)
+        res = adb(f"install -r -g {apk_path}", check=False)
         if res.returncode == 0:
             print("Installation succeeded!")
-            time.sleep(2)
+            time.sleep(1)
             return True
-
-        output = (res.stdout + " " + res.stderr).lower()
-        print(f"Install attempt {attempt+1} output: {res.stdout} {res.stderr}")
-
-        if "can't find service: package" in output or "service not ready" in output:
-            print("PackageManager service not ready yet, waiting 3s...")
-            time.sleep(3)
-        elif "insufficient_storage" in output or "not enough space" in output or "failed to override installation location" in output:
-            print("Storage issue detected, attempting install with --user 0...")
-            res2 = adb(f"install -r -g -f --user 0 --bypass-low-target-sdk-block {apk_path}", check=False)
-            if res2.returncode == 0:
-                print("Installation with fallback flags succeeded!")
-                time.sleep(2)
-                return True
-            time.sleep(3)
-        else:
-            time.sleep(2)
+        time.sleep(2)
 
     print(f"ERROR: Failed to install {apk_path} after {retries} attempts!")
     sys.exit(1)
@@ -180,8 +139,8 @@ class UiDevice:
         for attempt in range(retries):
             xml = self.dump_hierarchy()
             xml_lower = xml.lower()
-            if "isn't responding" in xml_lower or "aerr_" in xml_lower or "stylus" in xml_lower or "older version" in xml_lower:
-                print("System ANR/overlay/older-sdk warning detected during click attempt, dismissing...")
+            if "isn't responding" in xml_lower or "aerr_" in xml_lower or "stylus" in xml_lower:
+                print("System ANR or overlay detected during click attempt, dismissing...")
                 dismiss_system_prompts(self)
                 xml = self.dump_hierarchy()
 
@@ -258,44 +217,12 @@ def find_apksigner():
     return "apksigner"
 
 
-def find_zipalign():
-    android_home = (
-        os.environ.get("ANDROID_HOME")
-        or os.environ.get("ANDROID_SDK_ROOT")
-        or os.path.expanduser("~/Android/Sdk")
-    )
-    build_tools_dir = os.path.join(android_home, "build-tools")
-    if os.path.exists(build_tools_dir):
-        versions = sorted(os.listdir(build_tools_dir), reverse=True)
-        for ver in versions:
-            path = os.path.join(build_tools_dir, ver, "zipalign")
-            if os.path.exists(path):
-                return path
-
-    which_res = subprocess.run(
-        "which zipalign", shell=True, capture_output=True, text=True
-    )
-    if which_res.returncode == 0:
-        return which_res.stdout.strip()
-    return "zipalign"
-
-
 def strip_signatures_and_resign(apk_path, keystore):
     print(f"Stripping old signatures from {apk_path}...")
     run_cmd(
         f'zip -d {apk_path} "META-INF/*.SF" "META-INF/*.RSA" "META-INF/*.DSA" "META-INF/*.EC" "META-INF/MANIFEST.MF"',
         check=False,
     )
-
-    aligned_apk = apk_path + ".aligned"
-    zipalign = find_zipalign()
-    print(f"Aligning {apk_path} using {zipalign}...")
-    align_res = run_cmd(f'"{zipalign}" -f 4 {apk_path} {aligned_apk}', check=False)
-    if align_res.returncode == 0 and os.path.exists(aligned_apk):
-        run_cmd(f"mv {aligned_apk} {apk_path}")
-    else:
-        print("Warning: zipalign skipped or failed, proceeding with original zip...")
-
     apksigner = find_apksigner()
     sign_cmd = f'"{apksigner}" sign --ks {keystore} --ks-pass pass:android --key-pass pass:android {apk_path}'
     run_cmd(sign_cmd)
@@ -311,9 +238,7 @@ def setup_environment():
         keytool_cmd = f"keytool -genkey -v -keystore {keystore} -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname 'CN=Android Debug,O=Android,C=US'"
         run_cmd(keytool_cmd)
 
-    print(
-        "=== Step 2: Checking downloaded debug APK artifact or building current version APK ==="
-    )
+    print("=== Step 2: Checking downloaded debug APK artifact or building current version APK ===")
     if not os.path.exists(NEW_APK_PATH):
         downloaded_debug_apk = "app/build/outputs/apk/ossNoads/debug/debug.apk"
         if os.path.exists(downloaded_debug_apk):
@@ -425,13 +350,11 @@ def dismiss_system_prompts(d):
                 "aerr_close",
                 "aerr_wait",
                 "wait",
-                "older version",
-                "built for an older",
             ]
         ):
             break
 
-        print(f"System prompt/ANR/older-sdk warning detected (attempt {loop+1}), clearing...")
+        print(f"System prompt/ANR dialog detected (attempt {loop+1}), clearing...")
         if "aerr_close" in xml or "close app" in xml_lower:
             d.click(resource_id="android:id/aerr_close") or d.click(text="Close app")
         elif "aerr_wait" in xml or "wait" in xml_lower:
@@ -449,7 +372,6 @@ def dismiss_system_prompts(d):
 
 def ensure_app_launched(d, package_name, component_name):
     disable_stylus_and_keyboard_prompts()
-    wait_for_activity_registered(component_name)
     for _ in range(8):
         adb_shell("input keyevent KEYCODE_WAKEUP", check=False)
         adb_shell("wm dismiss-keyguard", check=False)
@@ -461,8 +383,8 @@ def ensure_app_launched(d, package_name, component_name):
 
         xml = d.dump_hierarchy()
         xml_lower = xml.lower()
-        if 'package="android"' in xml or "application error" in xml_lower or "isn't responding" in xml_lower or "stylus" in xml_lower or "older version" in xml_lower:
-            print("System/ANR/older-sdk warning dialog detected, clearing...")
+        if 'package="android"' in xml or "application error" in xml_lower or "isn't responding" in xml_lower or "stylus" in xml_lower:
+            print("System/ANR dialog detected, clearing...")
             dismiss_system_prompts(d)
             time.sleep(1)
 
