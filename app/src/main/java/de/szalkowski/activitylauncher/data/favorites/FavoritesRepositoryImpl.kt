@@ -67,7 +67,7 @@ class FavoritesRepositoryImpl @Inject constructor(
                         }
                     }
                 }
-                prefs.edit { putBoolean(migrationKey, true) }
+                prefs.edit(commit = true) { putBoolean(migrationKey, true) }
             }
         }
     }

@@ -66,7 +66,7 @@ class RecentsRepositoryImpl @Inject constructor(
                         } catch (_: Exception) {}
                     }
                 }
-                prefs.edit { putBoolean(migrationKey, true) }
+                prefs.edit(commit = true) { putBoolean(migrationKey, true) }
             }
         }
     }

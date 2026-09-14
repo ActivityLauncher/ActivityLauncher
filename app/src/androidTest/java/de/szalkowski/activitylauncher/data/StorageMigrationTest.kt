@@ -3,6 +3,7 @@ package de.szalkowski.activitylauncher.data
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.BindValue
@@ -23,6 +24,7 @@ import de.szalkowski.activitylauncher.domain.settings.BackupRepository
 import de.szalkowski.activitylauncher.domain.settings.SettingsRepository
 import de.szalkowski.activitylauncher.domain.shortcuts.ShortcutsRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -121,6 +123,14 @@ class StorageMigrationTest {
         }
     }
 
+    private suspend fun SharedPreferences.waitForBoolean(key: String, expected: Boolean) {
+        withTimeout(5.seconds) {
+            while (getBoolean(key, !expected) != expected) {
+                delay(50)
+            }
+        }
+    }
+
     @Test
     fun testFavoritesMigration() = runBlocking {
         // 1. Setup legacy data
@@ -134,6 +144,7 @@ class StorageMigrationTest {
         val favorites = repo.getFavoritesFlow().waitForNotEmpty()
         assertEquals(1, favorites.size)
         assertEquals(component, favorites[0].intent.component)
+        favoritesPrefs.waitForBoolean("room_migration_done", true)
         assertTrue(favoritesPrefs.getBoolean("room_migration_done", false))
     }
 
@@ -146,6 +157,7 @@ class StorageMigrationTest {
         // 2. Initialize repository (triggers migration)
         val repo = FavoritesRepositoryImpl(context, database.favoriteDao(), packageRepository, getActivityIconUseCase, Dispatchers.IO)
         repo.getFavoritesFlow().waitForNotEmpty()
+        favoritesPrefs.waitForBoolean("room_migration_done", true)
         assertTrue(favoritesPrefs.getBoolean("room_migration_done", false))
 
         // 3. Clear database (but leave migration flag in prefs)
@@ -173,6 +185,7 @@ class StorageMigrationTest {
         val recents = repo.getRecentsFlow().waitForNotEmpty()
         assertEquals(1, recents.size)
         assertEquals(component, recents[0].intent.component)
+        recentsPrefs.waitForBoolean("room_migration_done", true)
         assertTrue(recentsPrefs.getBoolean("room_migration_done", false))
     }
 
