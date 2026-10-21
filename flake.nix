@@ -5,13 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-root.url = "github:srid/flake-root";
-    jailed-agents.url = "github:andersonjoseph/jailed-agents";
+    agent-toolbox.url = "github:butzist/agent-toolbox";
   };
 
   outputs = inputs @ {
     nixpkgs,
     flake-parts,
-    jailed-agents,
+    agent-toolbox,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -32,9 +32,6 @@
           };
         };
 
-        jlib = jailed-agents.lib.${system};
-        combinators = jlib.internals.jail.combinators;
-
         python = pkgs.python314.withPackages (ps: [
           ps.google-api-python-client
           ps.google-auth
@@ -42,11 +39,13 @@
         ]);
 
         androidSdk = pkgs.androidenv.composeAndroidPackages {
-          platformVersions = ["37"];
+          platformVersions = ["29" "37"];
           buildToolsVersions = ["37.0.0"];
           cmakeVersions = [];
-          includeEmulator = false;
-          includeSystemImages = false;
+          includeEmulator = true;
+          includeSystemImages = true;
+          systemImageTypes = ["google_apis"];
+          abiVersions = ["x86_64"];
           includeSources = false;
         };
 
@@ -64,33 +63,25 @@
           pkgs.which
         ];
 
-        agentPkgs = androidPkgs ++ [python];
+        agentPkgs =
+          androidPkgs
+          ++ [
+            python
+            pkgs.gh
+            pkgs.bash
+            pkgs.coreutils
+          ];
+
+        # The jailed agents (opencode) and the jail they run in: see
+        # nix/agents.nix, which owns the jail options and the Android env.
+        agents = import ./nix/agents.nix {
+          inherit pkgs agent-toolbox androidSdkPath javaHome;
+          basePackages = agentPkgs;
+        };
       in {
         devShells.default = pkgs.mkShell {
           name = "dev-shell";
-          packages =
-            agentPkgs
-            ++ [
-              (jlib.makeJailedOpencode {
-                name = "opencode";
-                extraPkgs = agentPkgs;
-                extraReadwriteDirs = [
-                  "~/.emulator_console_auth_token"
-                ];
-                baseJailOptions = with combinators;
-                  jlib.commonJailOptions
-                  ++ [
-                    (readwrite (noescape "\"$FLAKE_ROOT\""))
-                    (ro-bind "${pkgs.coreutils}/bin/env" "/usr/bin/env")
-                    (ro-bind "${pkgs.bash}/bin/bash" "/usr/bin/bash")
-                    (set-env "ANDROID_SDK_ROOT" androidSdkPath)
-                    (set-env "ANDROID_HOME" androidSdkPath)
-                    (set-env "ANDROID_AAPT2" "${androidSdkPath}/build-tools/37.0.0/aapt2")
-                    (set-env "JAVA_HOME" javaHome)
-                    (set-env "GRADLE_OPTS" "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g -Dandroid.aapt2FromMavenOverride=${androidSdkPath}/build-tools/37.0.0/aapt2")
-                  ];
-              })
-            ];
+          packages = agentPkgs ++ [agents.opencode];
           inputsFrom = [config.flake-root.devShell];
           shellHook = ''
             export ANDROID_SDK_ROOT="${androidSdkPath}"

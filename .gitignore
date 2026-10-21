@@ -12,6 +12,7 @@
 local.properties
 local.env
 google-services.json
+/.gitconfig
 keystore*.jks
 /.artifacts
 /.kotlin
