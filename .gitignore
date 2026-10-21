@@ -12,9 +12,18 @@
 local.properties
 local.env
 google-services.json
+/.gitconfig
 keystore*.jks
 /.artifacts
 /.kotlin
 client_secret.json
 upgrade-test-artifacts/
 __pycache__/
+
+# Local direnv/devshell state
+.direnv/
+.envrc
+.serena/
+
+# Per-project jailed-agent home (FLAKE_ROOT/.home)
+.home/

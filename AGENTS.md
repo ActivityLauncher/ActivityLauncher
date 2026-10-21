@@ -81,9 +81,14 @@ When adding new features or modifying existing ones, you **MUST** add or update 
 - **Run Integration Tests**: `./gradlew app:connectedOssNoadsDebugAndroidTest`
 
 ## Running from the Jailed OpenCode Agent
-The opencode agent runs inside a NixOS jail sandbox. The jail sets `GRADLE_OPTS` with `-Dandroid.aapt2FromMavenOverride` to point AGP at the NixOS-compatible AAPT2 binary. Use `./gradlew` (not the `gradlew` shell function, which is only available in the outer dev shell).
+`opencode` is the system-installed jailed launcher from the NixOS/home-manager config, not a project package. It reads `opencode.json` for the model. When `.envrc` is present, or when it is started from `nix develop`, the launcher forwards the dev-shell PATH and environment into the jail. The dev shell exports `GRADLE_OPTS` with `-Dandroid.aapt2FromMavenOverride` to point AGP at the NixOS-compatible AAPT2 binary. Use `./gradlew` (not the `gradlew` shell function, which is only available in the outer dev shell).
 
-**Note**: Integration tests (`connectedOssNoadsDebugAndroidTest`) require a running emulator. The emulator runs outside the jail, so it must be started manually before running the test command. Also restart the adb daemon so the jailed agent can discover the device:
+The dev shell provides `opencode-android`, a wrapper around the same system
+launcher that sets `JAIL_EXTRA_ARGS` to bind `~/.android` and the emulator
+console token. It does not expose KVM or Wayland. Use it from the dev shell when
+the agent needs to inspect AVDs or talk to an emulator on the host.
+
+**Note**: Integration tests (`connectedOssNoadsDebugAndroidTest`) require a running emulator. Keep the emulator on the host; the jail shares the host network so the agent can reach the host adb server. `opencode-android` only adds the AVD directory and emulator console token, not KVM. In both cases restart the adb daemon so the agent can discover the device:
 ```
 emulator -avd Resizable_Experimental -no-window -no-audio &
 adb kill-server && adb start-server
