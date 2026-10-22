@@ -63,6 +63,9 @@ let
       (c.try-readwrite (c.noescape "\"$HOME/.emulator_console_auth_token\""))
       # `gh` keeps its credentials here and may refresh `hosts.yml`.
       (c.try-readwrite (c.noescape "\"$HOME/.config/gh\""))
+      # Global git config (credential helper, user identity). Read-only:
+      # the agent may read it but must not modify the host's git setup.
+      (c.try-readonly (c.noescape "\"$HOME/.config/git\""))
       # jail.nix `gpu`: ro-binds the PCI GPU dirs in /sys/devices, mounts
       # /sys/dev/char + /run/opengl-driver(-32) and --dev-binds /dev/dri.
       c.gpu
