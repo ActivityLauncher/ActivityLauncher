@@ -210,7 +210,7 @@ dependencies {
     "adsImplementation"("com.google.firebase:firebase-crashlytics")
     "adsImplementation"("com.google.firebase:firebase-perf")
     "adsImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
-    "adsImplementation"("com.intergi.playwire:playwiresdk_total:12.1.1")
+    "adsImplementation"("com.intergi.playwire:playwiresdk_total:13.1.0")
     "adsImplementation"("com.google.android.gms:play-services-ads-identifier:18.3.0")
     "adsImplementation"("com.applovin:applovin-sdk:13.6.3")
 

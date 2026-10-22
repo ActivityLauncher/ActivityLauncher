@@ -9,10 +9,11 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.net.toUri
-import com.intergi.playwiresdk.PWNotifier
 import com.intergi.playwiresdk.PlaywireSDK
+import com.intergi.playwiresdk.ads.PWAdError
 import com.intergi.playwiresdk.ads.view.PWViewAd
 import com.intergi.playwiresdk.ads.view.banner.PWBannerView
+import com.intergi.playwiresdk.logger.LogLevel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import de.szalkowski.activitylauncher.BuildConfig
 import de.szalkowski.activitylauncher.R
@@ -47,7 +48,7 @@ class PlaywireAdManagerImpl @Inject constructor(
         }
 
         if (BuildConfig.DEBUG) {
-            PWNotifier.startConsoleLogger()
+            PlaywireSDK.setLogLevel(LogLevel.INFO)
         }
 
         PlaywireSDK.start(publisherId, appId, activity) { success, _ ->
@@ -81,7 +82,7 @@ class PlaywireAdManagerImpl @Inject constructor(
                 banner?.visibility = View.VISIBLE
             }
 
-            override fun onViewAdFailedToLoad(ad: PWViewAd) {
+            override fun onViewAdFailedToLoad(ad: PWViewAd, error: PWAdError) {
                 // Remove the failed ad view, fallback stays
                 banner?.let {
                     container.removeView(it)
