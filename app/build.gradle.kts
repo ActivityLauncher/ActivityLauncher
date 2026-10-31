@@ -8,19 +8,19 @@ plugins {
 }
 
 android {
-    namespace = "de.szalkowski.activitylauncher"
+    namespace = "com.lge.flip.activitylauncher"
     compileSdk = 37
 
     defaultConfig {
         applicationId =
-            providers.environmentVariable("APPID").getOrElse("de.szalkowski.activitylauncher")
+            providers.environmentVariable("APPID").getOrElse("com.lge.flip.activitylauncher")
         minSdk = 16
         targetSdk = 37
         versionCode = 20406
         versionName = "2.4.1"
 
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner = "de.szalkowski.activitylauncher.HiltTestRunner"
+        testInstrumentationRunner = "com.lge.flip.activitylauncher.HiltTestRunner"
     }
     testBuildType = "debug"
     flavorDimensions += listOf("distribution", "ads")

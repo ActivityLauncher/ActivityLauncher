@@ -1,4 +1,4 @@
-package de.szalkowski.activitylauncher
+package com.lge.flip.activitylauncher
 
 import android.app.Application
 import android.content.Context

@@ -8,14 +8,14 @@
         tools:ignore="QueryAllPackagesPermission" />
 
     <permission
-        android:name="de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT"
+        android:name="com.lge.flip.activitylauncher.permission.CREATE_SHORTCUT"
         android:protectionLevel="signature" />
     <permission
-        android:name="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY"
+        android:name="com.lge.flip.activitylauncher.permission.LAUNCH_ACTIVITY"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT" />
-    <uses-permission android:name="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY" />
+    <uses-permission android:name="com.lge.flip.activitylauncher.permission.CREATE_SHORTCUT" />
+    <uses-permission android:name="com.lge.flip.activitylauncher.permission.LAUNCH_ACTIVITY" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -88,7 +88,7 @@
         <activity-alias
             android:name=".CreateShortcutActivity"
             android:exported="true"
-            android:permission="de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT"
+            android:permission="com.lge.flip.activitylauncher.permission.CREATE_SHORTCUT"
             android:targetActivity=".entrypoint.ShortcutActivity">
             <intent-filter>
                 <action android:name="activitylauncher.intent.action.CREATE_SHORTCUT" />
@@ -100,7 +100,7 @@
         <activity-alias
             android:name=".LaunchActivity"
             android:exported="true"
-            android:permission="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY"
+            android:permission="com.lge.flip.activitylauncher.permission.LAUNCH_ACTIVITY"
             android:targetActivity=".entrypoint.ShortcutActivity">
             <intent-filter>
                 <action android:name="activitylauncher.intent.action.LAUNCH_ACTIVITY" />
