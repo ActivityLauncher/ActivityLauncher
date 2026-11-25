@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import de.szalkowski.activitylauncher.core.util.filterByHeldPermissions
 import de.szalkowski.activitylauncher.core.util.getLauncherLargeIconSize
 import de.szalkowski.activitylauncher.domain.launcher.ShortcutCreator
 import de.szalkowski.activitylauncher.domain.launcher.ShortcutCreatorProxy
@@ -38,13 +39,13 @@ class ShortcutCreatorProxyImpl @Inject constructor(
 
     override fun hasMultipleHandlers(): Boolean {
         val intent = Intent(ShortcutCreatorProxy.INTENT_CREATE_SHORTCUT)
-        val handlers = pm.queryIntentActivities(intent, 0)
+        val handlers = pm.queryIntentActivities(intent, 0).filterByHeldPermissions(context)
         return handlers.size > 1
     }
 
     override fun getPlugins(): List<PluginInfo> {
         val intent = Intent(ShortcutCreatorProxy.INTENT_CREATE_SHORTCUT)
-        val handlers = pm.queryIntentActivities(intent, 0)
+        val handlers = pm.queryIntentActivities(intent, 0).filterByHeldPermissions(context)
         return handlers.map { handler ->
             val name = handler.loadLabel(pm).toString()
             val componentName = ComponentName(handler.activityInfo.packageName, handler.activityInfo.name)

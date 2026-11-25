@@ -37,6 +37,7 @@ android {
             dimension = "distribution"
             minSdk = 16
             multiDexEnabled = true
+            manifestPlaceholders["permissionNamespace"] = "de.szalkowski.activitylauncher.oss"
             applicationId =
                 providers.environmentVariable(
                     "APPID",
@@ -45,6 +46,7 @@ android {
         create("playStore") {
             dimension = "distribution"
             minSdk = 24
+            manifestPlaceholders["permissionNamespace"] = "de.szalkowski.activitylauncher"
             applicationId =
                 providers.environmentVariable("APPID").orElse(providers.gradleProperty("APPID")).getOrElse("de.szalkowski.activitylauncher")
         }

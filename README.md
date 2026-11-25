@@ -15,6 +15,18 @@ and shortcut creation.
 <a href="https://play.google.com/store/apps/details?id=de.szalkowski.activitylauncher.pro" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80"/></a>
 
+## Signing certificates and plugins
+
+First-party builds trust each other through manifest permissions using Android's
+`signature|knownSigner` protection level. The `playStore` distribution declares the
+`de.szalkowski.activitylauncher.permission.*` names; the `oss` distribution (GitHub OSS and F-Droid)
+declares `de.szalkowski.activitylauncher.oss.permission.*`. Plugins expose one alias per family. The
+verified certificate digests and their provenance are documented in
+[SIGNING_CERTIFICATES.md](SIGNING_CERTIFICATES.md); plugin authors should follow
+[PLUGIN_ARCHITECTURE.md](PLUGIN_ARCHITECTURE.md). Android 12+ grants the permissions to all listed
+first-party keys; older versions fall back to plain `signature` and ignore the trusted certificate
+list.
+
 ## Android developer verification (OSS builds)
 
 OSS builds embed an `assets/adi-registration.properties` file when the

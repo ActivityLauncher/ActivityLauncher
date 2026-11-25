@@ -3,7 +3,6 @@ package de.szalkowski.activitylauncher.entrypoint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -57,22 +56,16 @@ class ShortcutActivity : AppCompatActivity() {
                 }
 
                 ShortcutCreatorProxy.INTENT_CREATE_SHORTCUT -> {
-                    if (checkPermission("de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT")) {
-                        handleCreateShortcut()
-                        // On API 26+, requestPinShortcut requires the activity to be in the foreground.
-                        // If we finish() immediately, the request might fail.
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                            finish()
-                        }
-                    } else {
+                    handleCreateShortcut()
+                    // On API 26+, requestPinShortcut requires the activity to be in the foreground.
+                    // If we finish() immediately, the request might fail.
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                         finish()
                     }
                 }
 
                 ActivityLauncherProxy.INTENT_LAUNCH_ACTIVITY -> {
-                    if (checkPermission("de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY")) {
-                        handleLaunchActivity()
-                    }
+                    handleLaunchActivity()
                     finish()
                 }
 
@@ -95,15 +88,6 @@ class ShortcutActivity : AppCompatActivity() {
                 1000,
             )
         }
-    }
-
-    private fun checkPermission(permission: String): Boolean {
-        if (checkCallingOrSelfPermission(permission) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-            return true
-        }
-
-        Log.e("ShortcutActivity", "Permission denied: $permission")
-        return false
     }
 
     private fun redirectToMain(launchRequest: LaunchRequest) {

@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="filter_count_format" translatable="false">%1$d/%2$d</string>
     <string name="hint_extra_value_boolean" translatable="false">e.g. true or false</string>
     <string name="hint_extra_value_double" translatable="false">e.g. 1.23456789</string>
     <string name="hint_extra_value_float" translatable="false">e.g. 1.23</string>
     <string name="hint_extra_value_int" translatable="false">e.g. 123</string>
     <string name="hint_extra_value_long" translatable="false">e.g. 123456789</string>
     <string name="hint_extra_value_string" translatable="false">e.g. some text</string>
-    <string name="filter_count_format" translatable="false">%1$d/%2$d</string>
+
+    <!--
+        SHA-256 digests of first-party Activity Launcher app-signing certificates. The platform
+        reads these from android:knownCerts; digests must be plain hex without separators.
+        Sources and rationale are documented in SIGNING_CERTIFICATES.md.
+    -->
+    <string-array name="trusted_signing_certificates" translatable="false">
+        <!-- Current Play free, Play Pro, and GitHub OSS builds. -->
+        <item>76ADD486A275E14096D7C9AABE25A5266D19C761B9427B60BB596F79A03ED4F7</item>
+        <!-- Historical Play Pro builds. -->
+        <item>19C1562D74E33BFFDAF2E4B5D96DA26587934A6F73A162E0A96DCE564C200960</item>
+        <!-- Official F-Droid builds. -->
+        <item>2015709D519FD686B1E37B334F12082CBAFCB9F5126A68A25B172043EBB581DE</item>
+        <!-- Historical GitHub OSS builds. -->
+        <item>45648A8BB6CBC4F5FD39CD9C12BD250F2585617CA518F4778EA89C75495B9298</item>
+    </string-array>
 </resources>

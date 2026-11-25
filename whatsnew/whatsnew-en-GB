@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.1
+
+- Extend manifest permissions with known signing certificates for trusted first-party access
+- Split permission namespaces to avoid duplicate-permission conflicts between app variants
+- Hide plugin handlers whose permission is not held by the current app build
+- Document the signing certificates and the two-alias plugin permission protocol
+
 ## Features
 
 - Plugin system for launch and shortcut creation (docs & example on GitHub)

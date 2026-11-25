@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        Play free and Play Pro share a signing key, so both may declare these names. No other
+        first-party or plugin build declares them; see the root manifest for details.
+    -->
+    <permission
+        android:name="de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT"
+        android:knownCerts="@array/trusted_signing_certificates"
+        android:protectionLevel="signature|knownSigner"
+        tools:targetApi="31" />
+    <permission
+        android:name="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY"
+        android:knownCerts="@array/trusted_signing_certificates"
+        android:protectionLevel="signature|knownSigner"
+        tools:targetApi="31" />
+
+</manifest>

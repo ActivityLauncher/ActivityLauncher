@@ -2,6 +2,31 @@
 
 Activity Launcher supports external plugins for shortcut creation and activity launching. This document describes the intent-based protocol used to communicate with these plugins.
 
+## Caller trust and permissions
+
+The `distribution` dimension has two values: `oss` and `playStore`. Each value declares only its own
+permission namespace:
+
+- `playStore`: `de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT` and
+  `de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY`
+- `oss`: `de.szalkowski.activitylauncher.oss.permission.CREATE_SHORTCUT` and
+  `de.szalkowski.activitylauncher.oss.permission.LAUNCH_ACTIVITY`
+
+The declarations use `signature|knownSigner` with `android:knownCerts`, listing the verified
+first-party digests documented in [SIGNING_CERTIFICATES.md](SIGNING_CERTIFICATES.md). On Android 12
+(API 31) and newer, the system grants each declared permission to every listed first-party build. On
+older versions `knownSigner` is ignored and permissions fall back to plain `signature`.
+
+Android does not support `permission A OR permission B` on one component. A plugin that wants to
+accept both distributions exposes **two aliases for the same target activity**, one per permission
+family, as shown in [`examples/plugin/AndroidManifest.xml`](examples/plugin/AndroidManifest.xml).
+`PackageManager.queryIntentActivities()` returns both aliases even when the caller cannot use one, so
+Activity Launcher filters handlers by permissions it actually holds and collapses aliases that target
+the same activity before showing the chooser.
+
+An app can always launch its own component protected by `android:permission` because Android gives a
+UID blanket access to components it owns. Third-party callers without a held permission are denied.
+
 ## Shortcut Creation Flow
 
 When a user requests to create a shortcut, Activity Launcher sends a `CREATE_SHORTCUT` intent. A plugin can register for this action to handle the shortcut creation (e.g., to provide custom icons, labels, or to use a different shortcut pinning mechanism).

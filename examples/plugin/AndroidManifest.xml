@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Request both first-party permission families. A plugin must never declare them. On Android
+         12+ knownSigner grants each family to the listed first-party certs; older versions grant a
+         family only to apps signed with that family's declaring key. -->
+    <uses-permission android:name="de.szalkowski.activitylauncher.permission.CREATE_SHORTCUT" />
+    <uses-permission android:name="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY" />
+    <uses-permission android:name="de.szalkowski.activitylauncher.oss.permission.CREATE_SHORTCUT" />
+    <uses-permission android:name="de.szalkowski.activitylauncher.oss.permission.LAUNCH_ACTIVITY" />
+
+    <application>
+        <activity
+            android:name=".LauncherActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Transparent" />
+
+        <activity-alias
+            android:name=".LaunchActivity"
+            android:exported="true"
+            android:permission="de.szalkowski.activitylauncher.permission.LAUNCH_ACTIVITY"
+            android:targetActivity=".LauncherActivity">
+            <intent-filter>
+                <action android:name="activitylauncher.intent.action.LAUNCH_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Same action and target as .LaunchActivity, gated by the oss distribution family. -->
+        <activity-alias
+            android:name=".OssLaunchActivity"
+            android:exported="true"
+            android:permission="de.szalkowski.activitylauncher.oss.permission.LAUNCH_ACTIVITY"
+            android:targetActivity=".LauncherActivity">
+            <intent-filter>
+                <action android:name="activitylauncher.intent.action.LAUNCH_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+
+</manifest>
