@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">錯誤：無效的圖示資源</string>
     <string name="error_invalid_int">無效的整數 (Integer)</string>
     <string name="error_invalid_long">無效的 Long</string>
+    <string name="error_invalid_signature">捷徑簽章無效</string>
+    <string name="error_shortcut_not_found">在資料庫中找不到捷徑</string>
     <string name="filter_hint">套件/動作</string>
     <string name="label_class">類別</string>
     <string name="label_intent_action">動作</string>

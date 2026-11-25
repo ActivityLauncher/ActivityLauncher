@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Hata: geçersiz simge kaynağı</string>
     <string name="error_invalid_int">Geçersiz Tam Sayı (Integer)</string>
     <string name="error_invalid_long">Geçersiz Long</string>
+    <string name="error_invalid_signature">Geçersiz kısayol imzası</string>
+    <string name="error_shortcut_not_found">Kısayol veritabanında bulunamadı</string>
     <string name="filter_hint">paket/eylem</string>
     <string name="label_class">Sınıf</string>
     <string name="label_intent_action">Eylem</string>

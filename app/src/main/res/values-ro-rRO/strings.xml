@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Eroare: resursa pitogramei este invalidă</string>
     <string name="error_invalid_int">Integer invalid</string>
     <string name="error_invalid_long">Long invalid</string>
+    <string name="error_invalid_signature">Semnătură de comandă rapidă nevalidă</string>
+    <string name="error_shortcut_not_found">Comanda rapidă nu a fost găsită în baza de date</string>
     <string name="filter_hint">pachet/acțiune</string>
     <string name="label_class">Clasă</string>
     <string name="label_intent_action">Action</string>

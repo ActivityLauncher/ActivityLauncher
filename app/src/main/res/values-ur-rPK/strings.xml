@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">خرابی: غلط آئیکن ریسورس</string>
     <string name="error_invalid_int">غلط Integer</string>
     <string name="error_invalid_long">غلط Long</string>
+    <string name="error_invalid_signature">شارٹ کٹ کا دستخط غلط ہے</string>
+    <string name="error_shortcut_not_found">ڈیٹابیس میں شارٹ کٹ نہیں ملا</string>
     <string name="filter_hint">پیکیج/سرگرمی</string>
     <string name="label_class">کلاس</string>
     <string name="label_intent_action">کارروائی</string>

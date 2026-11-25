@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">שגיאה: סמל לא חוקי</string>
     <string name="error_invalid_int">מספר שלם לא תקין</string>
     <string name="error_invalid_long">Long לא תקין</string>
+    <string name="error_invalid_signature">חתימת קיצור הדרך לא תקינה</string>
+    <string name="error_shortcut_not_found">קיצור הדרך לא נמצא במסד הנתונים</string>
     <string name="filter_hint">חבילה/פעולה</string>
     <string name="label_class">מחלקה</string>
     <string name="label_intent_action">פעולה</string>

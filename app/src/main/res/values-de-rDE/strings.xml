@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Fehler: Ungültige Symbolressource</string>
     <string name="error_invalid_int">Ungültige Ganzzahl (Integer)</string>
     <string name="error_invalid_long">Ungültiges Long</string>
+    <string name="error_invalid_signature">Ungültige Verknüpfungssignatur</string>
+    <string name="error_shortcut_not_found">Verknüpfung nicht in der Datenbank gefunden</string>
     <string name="filter_hint">Paket/Aktion</string>
     <string name="label_class">Klasse</string>
     <string name="label_intent_action">Aktion (Action)</string>

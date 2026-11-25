@@ -54,6 +54,7 @@ Ads:
     - All `strings.xml` files MUST be kept in sync with the base `values/strings.xml`.
     - Strings in all resource files MUST be ordered alphabetically by their `name` attribute.
     - Technical strings and those that should not be translated MUST be placed in `untranslatable.xml` with `translatable="false"`.
+    - `comment` attributes in base `values/strings.xml` are the authoritative translator context. Do not copy them into locale files or add context elsewhere.
     - Do not translate `whatsnew` files.
     - **Language-Specific Rules**:
         - **Serbian (sr-rRS)**: ALWAYS use Cyrillic script.
@@ -63,7 +64,7 @@ Ads:
 # Maintenance Scripts
 Located in the `scripts/` directory:
 - `sort-strings.py`: Run this after adding new strings to the base `strings.xml` to synchronize all translation files and maintain alphabetical ordering.
-- `check-strings.py`: Run this to verify that all translations are in sync, have correct placeholders, and do not contain untranslated English strings.
+- `check-strings.py`: Run with `--sync` to sort/sync translations, then verify keys, placeholders, apostrophe escaping, and untranslated strings. Known intentional identical-to-English strings are filtered out.
 - `update-listing.py`: Used to update the Play Store listing from resource strings and description files.
 
 # Handling non-FOSS features

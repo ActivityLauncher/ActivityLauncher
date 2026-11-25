@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Hiba: érvénytelen ikonforrás</string>
     <string name="error_invalid_int">Érvénytelen egész szám</string>
     <string name="error_invalid_long">Érvénytelen Long</string>
+    <string name="error_invalid_signature">Érvénytelen parancsikon-aláírás</string>
+    <string name="error_shortcut_not_found">A parancsikon nem található az adatbázisban</string>
     <string name="filter_hint">csomag/tevékenység</string>
     <string name="label_class">Osztály</string>
     <string name="label_intent_action">Művelet</string>

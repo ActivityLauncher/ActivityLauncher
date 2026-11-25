@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Error: el recurs d\'icona no és vàlid</string>
     <string name="error_invalid_int">Sencer no vàlid (Integer)</string>
     <string name="error_invalid_long">Long no vàlid</string>
+    <string name="error_invalid_signature">Signatura de drecera no vàlida</string>
+    <string name="error_shortcut_not_found">Drecera no trobada a la base de dades</string>
     <string name="filter_hint">paquet/acció</string>
     <string name="label_class">Classe</string>
     <string name="label_intent_action">Acció</string>

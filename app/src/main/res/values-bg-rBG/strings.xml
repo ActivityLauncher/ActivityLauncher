@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Грешка: невалиден ресурс за иконата</string>
     <string name="error_invalid_int">Невалидно цяло число (Integer)</string>
     <string name="error_invalid_long">Невалидно Long</string>
+    <string name="error_invalid_signature">Невалиден подпис на пряк път</string>
+    <string name="error_shortcut_not_found">Прекият път не е намерен в базата данни</string>
     <string name="filter_hint">пакет/действие</string>
     <string name="label_class">Разред</string>
     <string name="label_intent_action">Действие (Action)</string>

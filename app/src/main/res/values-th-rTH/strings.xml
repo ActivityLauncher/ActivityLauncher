@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">ข้อผิดพลาด: ทรัพยากรไอคอนไม่ถูกต้อง</string>
     <string name="error_invalid_int">Integer ไม่ถูกต้อง</string>
     <string name="error_invalid_long">Long ไม่ถูกต้อง</string>
+    <string name="error_invalid_signature">ลายเซ็นทางลัดไม่ถูกต้อง</string>
+    <string name="error_shortcut_not_found">ไม่พบทางลัดในฐานข้อมูล</string>
     <string name="filter_hint">แพ็คเกจ/การดำเนินการ</string>
     <string name="label_class">ระดับ</string>
     <string name="label_intent_action">การดำเนินการ</string>

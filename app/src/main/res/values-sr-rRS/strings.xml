@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Грешка: неисправна иконица</string>
     <string name="error_invalid_int">Неважећи Integer</string>
     <string name="error_invalid_long">Неважећи Long</string>
+    <string name="error_invalid_signature">Неважећи потпис пречице</string>
+    <string name="error_shortcut_not_found">Пречица није пронађена у бази података</string>
     <string name="filter_hint">пакет/акција</string>
     <string name="label_class">Класа</string>
     <string name="label_intent_action">Дејство</string>

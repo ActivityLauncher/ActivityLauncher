@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Fel: ogiltig ikonresurs</string>
     <string name="error_invalid_int">Ogiltig Integer</string>
     <string name="error_invalid_long">Ogiltig Long</string>
+    <string name="error_invalid_signature">Ogiltig genvägssignatur</string>
+    <string name="error_shortcut_not_found">Genvägen hittades inte i databasen</string>
     <string name="filter_hint">paket/åtgärd</string>
     <string name="label_class">Klass</string>
     <string name="label_intent_action">Action</string>

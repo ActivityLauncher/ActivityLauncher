@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Помилка: недопустиме джерело іконки</string>
     <string name="error_invalid_int">Неправильний Integer</string>
     <string name="error_invalid_long">Неправильний Long</string>
+    <string name="error_invalid_signature">Недійсний підпис ярлика</string>
+    <string name="error_shortcut_not_found">Ярлик не знайдено в базі даних</string>
     <string name="filter_hint">пакет/дія</string>
     <string name="label_class">Клас</string>
     <string name="label_intent_action">Дія</string>

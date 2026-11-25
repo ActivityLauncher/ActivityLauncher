@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Fout: ongeldige ikoonhulpbron</string>
     <string name="error_invalid_int">Ongeldige heelgetal</string>
     <string name="error_invalid_long">Ongeldige Long</string>
+    <string name="error_invalid_signature">Ongeldige kortpadhandtekening</string>
+    <string name="error_shortcut_not_found">Kortpad nie in databasis gevind nie</string>
     <string name="filter_hint">pakket/aksie</string>
     <string name="label_class">Klas</string>
     <string name="label_intent_action">Aksie</string>

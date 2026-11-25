@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">خطأ: مورد الأيقونة غير صالح</string>
     <string name="error_invalid_int">عدد صحيح غير صالح</string>
     <string name="error_invalid_long">Long غير صالح</string>
+    <string name="error_invalid_signature">توقيع الاختصار غير صالح</string>
+    <string name="error_shortcut_not_found">لم يتم العثور على الاختصار في قاعدة البيانات</string>
     <string name="filter_hint">حزمة/إجراء</string>
     <string name="label_class">فئة</string>
     <string name="label_intent_action">إجراء</string>

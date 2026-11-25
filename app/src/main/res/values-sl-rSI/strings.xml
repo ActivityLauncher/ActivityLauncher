@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Napaka: neveljaven vir ikone</string>
     <string name="error_invalid_int">Neveljaven Integer</string>
     <string name="error_invalid_long">Neveljaven Long</string>
+    <string name="error_invalid_signature">Neveljaven podpis bližnjice</string>
+    <string name="error_shortcut_not_found">Bližnjice ni v zbirki podatkov</string>
     <string name="filter_hint">paket/dejanje</string>
     <string name="label_class">Razred</string>
     <string name="label_intent_action">Action</string>

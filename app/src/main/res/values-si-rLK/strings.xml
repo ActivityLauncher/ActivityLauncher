@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">දෝෂය: අයිකන සම්පත් සමඟ නොගැළපෙයි</string>
     <string name="error_invalid_int">වලංගු නොවන Integer</string>
     <string name="error_invalid_long">වලංගු නොවන Long</string>
+    <string name="error_invalid_signature">වලංගු නොවන කෙටිමං අත්සන</string>
+    <string name="error_shortcut_not_found">දත්තගබඩාවේ කෙටිමඟ හමු නොවීය</string>
     <string name="filter_hint">පැකේජය/ක්‍රියාව</string>
     <string name="label_class">පන්තිය</string>
     <string name="label_intent_action">ක්‍රියාව</string>

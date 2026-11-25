@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Chyba: neplatný zdroj ikony</string>
     <string name="error_invalid_int">Neplatné celé číslo (Integer)</string>
     <string name="error_invalid_long">Neplatné Long</string>
+    <string name="error_invalid_signature">Neplatný podpis zástupce</string>
+    <string name="error_shortcut_not_found">Zástupce nebyl v databázi nalezen</string>
     <string name="filter_hint">balíček/akce</string>
     <string name="label_class">Třída</string>
     <string name="label_intent_action">Akce (Action)</string>

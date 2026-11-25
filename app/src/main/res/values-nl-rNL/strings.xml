@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Fout: ongeldige icoon bron</string>
     <string name="error_invalid_int">Ongeldig geheel getal</string>
     <string name="error_invalid_long">Ongeldige Long</string>
+    <string name="error_invalid_signature">Ongeldige snelkoppelingshandtekening</string>
+    <string name="error_shortcut_not_found">Snelkoppeling niet gevonden in de database</string>
     <string name="filter_hint">pakket/actie</string>
     <string name="label_class">Class</string>
     <string name="label_intent_action">Actie</string>

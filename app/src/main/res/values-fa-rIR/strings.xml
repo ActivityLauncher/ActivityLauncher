@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">خطا: منبع آیکون نامعتبر</string>
     <string name="error_invalid_int">Integer نامعتبر</string>
     <string name="error_invalid_long">Long نامعتبر</string>
+    <string name="error_invalid_signature">امضای میان‌بر نامعتبر است</string>
+    <string name="error_shortcut_not_found">میان‌بر در پایگاه داده پیدا نشد</string>
     <string name="filter_hint">بسته/فعالیت</string>
     <string name="label_class">کلاس</string>
     <string name="label_intent_action">اکشن</string>

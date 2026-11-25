@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">ਗਲਤੀ: ਅਵੈਧ ਆਈਕਨ ਸਰੋਤ</string>
     <string name="error_invalid_int">ਅਵੈਧ ਪੂਰਨ ਅੰਕ</string>
     <string name="error_invalid_long">ਅਵੈਧ ਲੌਂਗ</string>
+    <string name="error_invalid_signature">ਅਵੈਧ ਸ਼ਾਰਟਕੱਟ ਦਸਤਖਤ</string>
+    <string name="error_shortcut_not_found">ਡਾਟਾਬੇਸ ਵਿੱਚ ਸ਼ਾਰਟਕੱਟ ਨਹੀਂ ਮਿਲਿਆ</string>
     <string name="filter_hint">ਪੈਕੇਜ/ਕਾਰਵਾਈ</string>
     <string name="label_class">ਕਲਾਸ</string>
     <string name="label_intent_action">ਕਾਰਵਾਈ</string>

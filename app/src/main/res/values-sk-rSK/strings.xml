@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Chyba: neplatný zdroj ikony</string>
     <string name="error_invalid_int">Neplatný Integer</string>
     <string name="error_invalid_long">Neplatný Long</string>
+    <string name="error_invalid_signature">Neplatný podpis skratky</string>
+    <string name="error_shortcut_not_found">Skratka sa nenašla v databáze</string>
     <string name="filter_hint">balíček/akcia</string>
     <string name="label_class">Trieda</string>
     <string name="label_intent_action">Action</string>

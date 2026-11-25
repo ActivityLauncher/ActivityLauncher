@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Xəta: yararsız nişan resursu</string>
     <string name="error_invalid_int">Yanlış tam ədəd (Integer)</string>
     <string name="error_invalid_long">Yanlış Long</string>
+    <string name="error_invalid_signature">Yanlış qısayol imzası</string>
+    <string name="error_shortcut_not_found">Qısayol verilənlər bazasında tapılmadı</string>
     <string name="filter_hint">paket/əməliyyat</string>
     <string name="label_class">Sinif</string>
     <string name="label_intent_action">Fəaliyyət (Action)</string>

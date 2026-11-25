@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">오류: 아이콘 리소스가 잘못됨</string>
     <string name="error_invalid_int">유효하지 않은 정수</string>
     <string name="error_invalid_long">유효하지 않은 Long</string>
+    <string name="error_invalid_signature">잘못된 바로가기 서명</string>
+    <string name="error_shortcut_not_found">데이터베이스에서 바로가기를 찾을 수 없습니다</string>
     <string name="filter_hint">패키지/동작</string>
     <string name="label_class">종류</string>
     <string name="label_intent_action">액션</string>

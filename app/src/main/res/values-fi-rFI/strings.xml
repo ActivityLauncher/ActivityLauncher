@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Virhe: Virheellinen ikonin resurssi</string>
     <string name="error_invalid_int">Virheellinen kokonaisluku</string>
     <string name="error_invalid_long">Virheellinen Long</string>
+    <string name="error_invalid_signature">Virheellinen pikakuvakkeen allekirjoitus</string>
+    <string name="error_shortcut_not_found">Pikakuvaketta ei löytynyt tietokannasta</string>
     <string name="filter_hint">paketti/toiminto</string>
     <string name="label_class">Luokka</string>
     <string name="label_intent_action">Toiminto</string>

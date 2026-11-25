@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Kesalahan: sumber format ikon tidak sesuai.</string>
     <string name="error_invalid_int">Integer tidak valid</string>
     <string name="error_invalid_long">Long tidak valid</string>
+    <string name="error_invalid_signature">Tanda tangan pintasan tidak valid</string>
+    <string name="error_shortcut_not_found">Pintasan tidak ditemukan di basis data</string>
     <string name="filter_hint">paket/tindakan</string>
     <string name="label_class">Kelas</string>
     <string name="label_intent_action">Tindakan</string>

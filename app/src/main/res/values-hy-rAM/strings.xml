@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Սխալ. պատկերի անվավեր ռեսուրս</string>
     <string name="error_invalid_int">Անվավեր ամբողջ թիվ</string>
     <string name="error_invalid_long">Անվավեր Long</string>
+    <string name="error_invalid_signature">Անվավեր դյուրանցման ստորագրություն</string>
+    <string name="error_shortcut_not_found">Դյուրանցումը տվյալների բազայում չի գտնվել</string>
     <string name="filter_hint">փաթեթ/գործողություն</string>
     <string name="label_class">Դաս</string>
     <string name="label_intent_action">Գործողություն</string>

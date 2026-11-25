@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">त्रुटि: अमान्य आइकन संसाधन</string>
     <string name="error_invalid_int">अमान्य पूर्णांक</string>
     <string name="error_invalid_long">अमान्य लॉन्ग</string>
+    <string name="error_invalid_signature">अमान्य शॉर्टकट हस्ताक्षर</string>
+    <string name="error_shortcut_not_found">डेटाबेस में शॉर्टकट नहीं मिला</string>
     <string name="filter_hint">पैकेज/गतिविधि</string>
     <string name="label_class">वर्ग</string>
     <string name="label_intent_action">एक्शन</string>

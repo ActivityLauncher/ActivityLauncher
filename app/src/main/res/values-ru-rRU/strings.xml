@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Ошибка: Недопустимый ресурс иконки</string>
     <string name="error_invalid_int">Неверный Integer</string>
     <string name="error_invalid_long">Неверный Long</string>
+    <string name="error_invalid_signature">Неверная подпись ярлыка</string>
+    <string name="error_shortcut_not_found">Ярлык не найден в базе данных</string>
     <string name="filter_hint">пакет/действие</string>
     <string name="label_class">Класс</string>
     <string name="label_intent_action">Действие</string>

@@ -48,6 +48,8 @@ qaSpu\' GitHubDaq Do\'Ha\' \'ej Heghbe\' law\' lo\'. De\'vamDaq mIw ghu\'vam Qap
     <string name="error_invalid_icon_resource">Qagh: Degh Sup waS</string>
     <string name="error_invalid_int">Integer qatbe\'</string>
     <string name="error_invalid_long">Long qatbe\'</string>
+    <string name="error_invalid_signature">ghoSmeH He\' lulughbe\'</string>
+    <string name="error_shortcut_not_found">De\' polwI\'Daq ghoSmeH He\' tu\'lu\'be\'</string>
     <string name="filter_hint">vey/ghIgh</string>
     <string name="label_class">Segh</string>
     <string name="label_intent_action">Action</string>

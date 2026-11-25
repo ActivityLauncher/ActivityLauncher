@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Lỗi: tài nguyên biểu tượng không hợp lệ</string>
     <string name="error_invalid_int">Integer không hợp lệ</string>
     <string name="error_invalid_long">Long không hợp lệ</string>
+    <string name="error_invalid_signature">Chữ ký lối tắt không hợp lệ</string>
+    <string name="error_shortcut_not_found">Không tìm thấy lối tắt trong cơ sở dữ liệu</string>
     <string name="filter_hint">gói/hành động</string>
     <string name="label_class">Cấp</string>
     <string name="label_intent_action">Hành động</string>

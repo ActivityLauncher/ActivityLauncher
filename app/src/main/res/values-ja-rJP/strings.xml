@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">エラー: 無効なアイコン リソース</string>
     <string name="error_invalid_int">無効な整数です</string>
     <string name="error_invalid_long">無効なLongです</string>
+    <string name="error_invalid_signature">ショートカットの署名が無効です</string>
+    <string name="error_shortcut_not_found">ショートカットがデータベースに見つかりません</string>
     <string name="filter_hint">パッケージ/アクション</string>
     <string name="label_class">クラス</string>
     <string name="label_intent_action">アクション</string>

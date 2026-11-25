@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Błąd: nieprawidłowy zasób ikony</string>
     <string name="error_invalid_int">Nieprawidłowa liczba całkowita</string>
     <string name="error_invalid_long">Nieprawidłowy Long</string>
+    <string name="error_invalid_signature">Nieprawidłowy podpis skrótu</string>
+    <string name="error_shortcut_not_found">Nie znaleziono skrótu w bazie danych</string>
     <string name="filter_hint">pakiet/akcja</string>
     <string name="label_class">Klasa</string>
     <string name="label_intent_action">Akcja</string>

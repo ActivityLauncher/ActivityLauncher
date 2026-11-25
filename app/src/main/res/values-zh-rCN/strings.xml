@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">错误: 无效的图标资源</string>
     <string name="error_invalid_int">无效的整数 (Integer)</string>
     <string name="error_invalid_long">无效的 Long</string>
+    <string name="error_invalid_signature">快捷方式签名无效</string>
+    <string name="error_shortcut_not_found">数据库中未找到快捷方式</string>
     <string name="filter_hint">包/操作</string>
     <string name="label_class">类</string>
     <string name="label_intent_action">动作</string>

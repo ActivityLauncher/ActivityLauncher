@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">هەڵە: سەرچاوەی ئایکۆنێکی نادروست</string>
     <string name="error_invalid_int">ژمارەی تەواوی (Integer) نادروست</string>
     <string name="error_invalid_long">ژمارەی (Long) نادروست</string>
+    <string name="error_invalid_signature">واژۆی کورتەڕێگاکە نادروستە</string>
+    <string name="error_shortcut_not_found">کورتەڕێگاکە لە بنکەدراوەدا نەدۆزرایەوە</string>
     <string name="filter_hint">پاکێج/چالاکی</string>
     <string name="label_class">کلاس</string>
     <string name="label_intent_action">کردار</string>

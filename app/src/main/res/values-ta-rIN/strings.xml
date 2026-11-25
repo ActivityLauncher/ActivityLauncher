@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">பிழை: தவறான ஐகான் ஆதாரம்</string>
     <string name="error_invalid_int">தவறான Integer</string>
     <string name="error_invalid_long">தவறான Long</string>
+    <string name="error_invalid_signature">தவறான குறுக்குவழி கையொப்பம்</string>
+    <string name="error_shortcut_not_found">தரவுத்தளத்தில் குறுக்குவழி இல்லை</string>
     <string name="filter_hint">தொகுப்பு/செயல்</string>
     <string name="label_class">வகுப்பு</string>
     <string name="label_intent_action">நடவடிக்கை</string>

@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Feil: Ugyldig ikonressurs</string>
     <string name="error_invalid_int">Ugyldig heltall</string>
     <string name="error_invalid_long">Ugyldig Long</string>
+    <string name="error_invalid_signature">Ugyldig snarveisignatur</string>
+    <string name="error_shortcut_not_found">Snarvei ikke funnet i databasen</string>
     <string name="filter_hint">pakke/handling</string>
     <string name="label_class">Klasse</string>
     <string name="label_intent_action">Action</string>

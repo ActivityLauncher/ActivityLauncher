@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Xeletî: çavkaniya îkonê ya nederbasdar</string>
     <string name="error_invalid_int">Integer nederbasdar e</string>
     <string name="error_invalid_long">Long nederbasdar e</string>
+    <string name="error_invalid_signature">Îmzeya kurterê nederbasdar e</string>
+    <string name="error_shortcut_not_found">Kurterê di danegeha daneyan de nehat dîtin</string>
     <string name="filter_hint">paket/çalakî</string>
     <string name="label_class">Klas</string>
     <string name="label_intent_action">Action</string>

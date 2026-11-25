@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Σφάλμα: μη έγκυρος πόρος εικονιδίων</string>
     <string name="error_invalid_int">Μη έγκυρος ακέραιος (Integer)</string>
     <string name="error_invalid_long">Μη έγκυρο Long</string>
+    <string name="error_invalid_signature">Μη έγκυρη υπογραφή συντόμευσης</string>
+    <string name="error_shortcut_not_found">Η συντόμευση δεν βρέθηκε στη βάση δεδομένων</string>
     <string name="filter_hint">πακέτο/δράση</string>
     <string name="label_class">Κατηγορία</string>
     <string name="label_intent_action">Ενέργεια (Action)</string>

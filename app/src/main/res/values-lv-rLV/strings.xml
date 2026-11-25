@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Kļūda: nederīgs ikonas resurss</string>
     <string name="error_invalid_int">Nederīgs Integer</string>
     <string name="error_invalid_long">Nederīgs Long</string>
+    <string name="error_invalid_signature">Nederīgs saīsnes paraksts</string>
+    <string name="error_shortcut_not_found">Saīsne datubāzē nav atrasta</string>
     <string name="filter_hint">lietotne/darbība</string>
     <string name="label_class">Klase</string>
     <string name="label_intent_action">Darbība</string>

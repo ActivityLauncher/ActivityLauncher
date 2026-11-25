@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Fejl: Ugyldig ikonressource</string>
     <string name="error_invalid_int">Ugyldigt heltal (Integer)</string>
     <string name="error_invalid_long">Ugyldig Long</string>
+    <string name="error_invalid_signature">Ugyldig genvejssignatur</string>
+    <string name="error_shortcut_not_found">Genvej ikke fundet i databasen</string>
     <string name="filter_hint">pakke/handling</string>
     <string name="label_class">Klasse</string>
     <string name="label_intent_action">Handling (Action)</string>

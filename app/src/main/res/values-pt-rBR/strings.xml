@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Erro: recurso de ícone inválido</string>
     <string name="error_invalid_int">Integer inválido</string>
     <string name="error_invalid_long">Long inválido</string>
+    <string name="error_invalid_signature">Assinatura do atalho inválida</string>
+    <string name="error_shortcut_not_found">Atalho não encontrado no banco de dados</string>
     <string name="filter_hint">pacote/ação</string>
     <string name="label_class">Classe</string>
     <string name="label_intent_action">Ação</string>

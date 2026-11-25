@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Erreur : ressource d\'icône non valide</string>
     <string name="error_invalid_int">Entier invalide</string>
     <string name="error_invalid_long">Long invalide</string>
+    <string name="error_invalid_signature">Signature du raccourci invalide</string>
+    <string name="error_shortcut_not_found">Raccourci introuvable dans la base de données</string>
     <string name="filter_hint">paquet/action</string>
     <string name="label_class">Classe</string>
     <string name="label_intent_action">Action</string>

@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Error: recurso de icono inválido</string>
     <string name="error_invalid_int">Entero no válido</string>
     <string name="error_invalid_long">Long no válido</string>
+    <string name="error_invalid_signature">Firma de acceso directo no válida</string>
+    <string name="error_shortcut_not_found">Acceso directo no encontrado en la base de datos</string>
     <string name="filter_hint">paquete/acción</string>
     <string name="label_class">Clase</string>
     <string name="label_intent_action">Acción</string>

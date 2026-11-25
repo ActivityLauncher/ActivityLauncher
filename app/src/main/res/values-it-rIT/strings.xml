@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Errore: risorsa icona non valida</string>
     <string name="error_invalid_int">Intero non valido</string>
     <string name="error_invalid_long">Long non valido</string>
+    <string name="error_invalid_signature">Firma della scorciatoia non valida</string>
+    <string name="error_shortcut_not_found">Scorciatoia non trovata nel database</string>
     <string name="filter_hint">package/azione</string>
     <string name="label_class">Classe</string>
     <string name="label_intent_action">Azione</string>

@@ -46,6 +46,8 @@
     <string name="error_invalid_icon_resource">Error: invalid icon resource</string>
     <string name="error_invalid_int">Invalid Integer</string>
     <string name="error_invalid_long">Invalid Long</string>
+    <string name="error_invalid_signature">Invalid shortcut signature</string>
+    <string name="error_shortcut_not_found">Shortcut not found in database</string>
     <string name="filter_hint">package/action</string>
     <string name="label_class">Class</string>
     <string name="label_intent_action">Action</string>
