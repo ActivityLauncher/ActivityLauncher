@@ -44,6 +44,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Build debug APK
         run: ./gradlew assembleOssNoadsDebug -PAPPID=de.szalkowski.activitylauncher.oss --build-cache
+        env:
+          ADI_REGISTRATION_SNIPPET: ${{ secrets.ADI_REGISTRATION_SNIPPET }}
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:

@@ -17,6 +17,7 @@ keystore*.jks
 /.artifacts
 /.kotlin
 client_secret.json
+adi-registration.properties
 upgrade-test-artifacts/
 __pycache__/
 

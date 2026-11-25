@@ -15,6 +15,13 @@ and shortcut creation.
 <a href="https://play.google.com/store/apps/details?id=de.szalkowski.activitylauncher.pro" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80"/></a>
 
+## Android developer verification (OSS builds)
+
+OSS builds embed an `assets/adi-registration.properties` file when the
+`ADI_REGISTRATION_SNIPPET` environment variable (or Gradle property) is set.
+CI supplies it from the `ADI_REGISTRATION_SNIPPET` secret. If no snippet is
+provided, the asset is omitted from the APK.
+
 ## Support and Feature Requests
 
 Join our [Discord server](https://discord.gg/gzEugJBNMr) for support, feature

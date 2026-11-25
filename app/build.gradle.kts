@@ -1,3 +1,10 @@
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+
 plugins {
     id("com.android.application")
     id("com.google.devtools.ksp")
@@ -105,9 +112,43 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21) }
 }
 
+abstract class GenerateAdiRegistrationTask : DefaultTask() {
+    @get:Input
+    abstract val snippet: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val outputFile = outputDirectory.get().file("adi-registration.properties").asFile
+        val token = snippet.get().trim()
+        if (token.isEmpty()) {
+            outputFile.delete()
+        } else {
+            outputFile.parentFile.mkdirs()
+            outputFile.writeText("$token\n")
+        }
+    }
+}
+
 androidComponents {
     beforeVariants(selector().withFlavor("distribution", "oss").withFlavor("ads", "ads")) {
         it.enable = false
+    }
+
+    val adiRegistrationSnippet =
+        providers.environmentVariable("ADI_REGISTRATION_SNIPPET").orElse(providers.gradleProperty("ADI_REGISTRATION_SNIPPET"))
+    val generateAdiRegistration =
+        tasks.register<GenerateAdiRegistrationTask>("generateOssAdiRegistration") {
+            snippet.set(adiRegistrationSnippet.orElse(""))
+        }
+
+    onVariants(selector().withFlavor("distribution", "oss")) { variant ->
+        variant.sources.assets?.addGeneratedSourceDirectory(
+            generateAdiRegistration,
+            GenerateAdiRegistrationTask::outputDirectory,
+        )
     }
 }
 

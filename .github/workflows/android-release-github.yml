@@ -28,6 +28,7 @@ jobs:
       run: ./gradlew assembleOssNoadsRelease --build-cache
       env:
         APPID: de.szalkowski.activitylauncher.oss
+        ADI_REGISTRATION_SNIPPET: ${{ secrets.ADI_REGISTRATION_SNIPPET }}
         KEYSTORE: keystore.jks
         KEYSTORE_PASSWORD: ${{ secrets.KEYSTOREPASSWORD }}
         KEY_ALIAS: de.szalkowski.activitylauncher.oss
