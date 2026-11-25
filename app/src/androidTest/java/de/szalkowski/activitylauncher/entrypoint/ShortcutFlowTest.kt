@@ -254,6 +254,28 @@ class ShortcutFlowTest {
     }
 
     @Test
+    fun testStage3_LaunchRootShortcutFlow() {
+        // Stage 3: Receive LAUNCH_ROOT intent and start activity (handled as normal)
+        val componentName = ComponentName("com.test", "com.test.Activity")
+        val launchIntent = Intent().apply { component = componentName }
+        val signature = "valid_signature"
+
+        whenever(intentSigner.validateRequestSignature(any(), eq(signature))).thenReturn(true)
+
+        val intent = Intent(ShortcutCreator.INTENT_LAUNCH_ROOT_SHORTCUT).apply {
+            putExtra(ShortcutCreator.INTENT_EXTRA_INTENT, launchIntent.toUri(Intent.URI_INTENT_SCHEME))
+            putExtra(ShortcutCreator.INTENT_EXTRA_SIGNATURE, signature)
+            setClassName(ApplicationProvider.getApplicationContext(), ShortcutActivity::class.java.name)
+        }
+
+        ActivityScenario.launch<ShortcutActivity>(intent).use {
+            val captor = argumentCaptor<LaunchRequest>()
+            verify(activityLauncher).launchActivity(captor.capture())
+            assertEquals(componentName, captor.firstValue.intent.component)
+        }
+    }
+
+    @Test
     fun testStage3_LaunchShortcutFlowInvalidSignatureRedirect() {
         // Stage 3: Redirect to MainActivity if signature mismatch
         val componentName = ComponentName("com.test", "com.test.Activity")

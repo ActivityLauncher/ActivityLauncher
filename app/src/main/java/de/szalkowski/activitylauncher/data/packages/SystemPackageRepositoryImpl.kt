@@ -26,18 +26,24 @@ class SystemPackageRepositoryImpl @Inject constructor(
     private val packageManager: PackageManager = context.packageManager
 
     override fun getInstalledPackages(): List<SystemPackage> {
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            PackageManager.MATCH_UNINSTALLED_PACKAGES or PackageManager.MATCH_DISABLED_COMPONENTS
-        } else {
-            @Suppress("DEPRECATION")
-            PackageManager.GET_UNINSTALLED_PACKAGES
+        var flags = 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            flags = flags or PackageManager.MATCH_DISABLED_COMPONENTS or PackageManager.MATCH_DISABLED_UNTIL_USED_COMPONENTS
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            flags = flags or PackageManager.MATCH_APEX
+        }
+
         return packageManager.getInstalledPackages(flags).map { it.toSystemPackage() }
     }
 
     override fun getPackageDetails(packageName: String): SystemPackage? {
         return try {
-            val info = packageManager.getPackageInfo(packageName, 0)
+            var flags = 0
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                flags = flags or PackageManager.MATCH_DISABLED_COMPONENTS or PackageManager.MATCH_DISABLED_UNTIL_USED_COMPONENTS
+            }
+            val info = packageManager.getPackageInfo(packageName, flags)
             info.toSystemPackage()
         } catch (e: PackageManager.NameNotFoundException) {
             null
@@ -46,12 +52,14 @@ class SystemPackageRepositoryImpl @Inject constructor(
 
     override fun getActivities(packageName: String): List<MyActivityInfo> {
         return try {
-            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                PackageManager.GET_ACTIVITIES or PackageManager.MATCH_ALL or PackageManager.MATCH_DISABLED_COMPONENTS or PackageManager.MATCH_DISABLED_UNTIL_USED_COMPONENTS
-            } else {
-                @Suppress("DEPRECATION")
-                PackageManager.GET_ACTIVITIES
+            var flags = PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                flags = flags or PackageManager.MATCH_DISABLED_COMPONENTS or
+                    PackageManager.MATCH_DISABLED_UNTIL_USED_COMPONENTS or
+                    PackageManager.MATCH_DIRECT_BOOT_AWARE or
+                    PackageManager.MATCH_DIRECT_BOOT_UNAWARE
             }
+
             val info = packageManager.getPackageInfo(packageName, flags)
             val activities = info.activities ?: return emptyList()
             val appRes = getLocalizedResources(packageName)

@@ -47,7 +47,9 @@ class ShortcutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         try {
             when (intent.action) {
-                ShortcutCreator.INTENT_LAUNCH_SHORTCUT -> {
+                ShortcutCreator.INTENT_LAUNCH_SHORTCUT,
+                ShortcutCreator.INTENT_LAUNCH_ROOT_SHORTCUT,
+                -> {
                     lifecycleScope.launch {
                         handleLaunchShortcut()
                         finish()

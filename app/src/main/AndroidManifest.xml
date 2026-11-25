@@ -60,6 +60,11 @@
             </intent-filter>
         </activity>
 
+        <activity-alias
+            android:name=".MainActivity"
+            android:exported="true"
+            android:targetActivity=".entrypoint.MainActivity" />
+
         <activity
             android:name=".entrypoint.ShortcutActivity"
             android:exported="false"
@@ -74,6 +79,7 @@
 
             <intent-filter>
                 <action android:name="activitylauncher.intent.action.LAUNCH_SHORTCUT" />
+                <action android:name="activitylauncher.intent.action.LAUNCH_ROOT_SHORTCUT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

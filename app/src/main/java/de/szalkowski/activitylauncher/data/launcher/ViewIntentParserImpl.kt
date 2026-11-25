@@ -106,7 +106,9 @@ class ViewIntentParserImpl @Inject constructor() : ViewIntentParser {
                 }.getOrNull()
             }
 
-            ShortcutCreator.INTENT_LAUNCH_SHORTCUT -> {
+            ShortcutCreator.INTENT_LAUNCH_SHORTCUT,
+            ShortcutCreator.INTENT_LAUNCH_ROOT_SHORTCUT,
+            -> {
                 val launchIntentStr = intent.getStringExtra(ShortcutCreator.INTENT_EXTRA_INTENT)
                     ?: intent.getStringExtra(ShortcutCreator.LEGACY_INTENT_EXTRA_INTENT)
                     ?: return null

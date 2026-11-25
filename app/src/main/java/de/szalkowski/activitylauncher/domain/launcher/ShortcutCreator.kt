@@ -8,6 +8,7 @@ interface ShortcutCreator {
 
     companion object {
         const val INTENT_LAUNCH_SHORTCUT = "activitylauncher.intent.action.LAUNCH_SHORTCUT"
+        const val INTENT_LAUNCH_ROOT_SHORTCUT = "activitylauncher.intent.action.LAUNCH_ROOT_SHORTCUT"
         const val INTENT_EXTRA_NAME = "name"
         const val INTENT_EXTRA_INTENT = "intent"
         const val LEGACY_INTENT_EXTRA_INTENT = "extra_intent"
