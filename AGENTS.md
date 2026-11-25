@@ -81,7 +81,7 @@ When adding new features or modifying existing ones, you **MUST** add or update 
 - **Run Integration Tests**: `./gradlew app:connectedOssNoadsDebugAndroidTest`
 
 ## Running from the Jailed OpenCode Agent
-`opencode` is the system-installed jailed launcher from the NixOS/home-manager config, not a project package. It reads `opencode.json` for the model. When `.envrc` is present, or when it is started from `nix develop`, the launcher forwards the dev-shell PATH and environment into the jail. The dev shell exports `GRADLE_OPTS` with `-Dandroid.aapt2FromMavenOverride` to point AGP at the NixOS-compatible AAPT2 binary. Use `./gradlew` (not the `gradlew` shell function, which is only available in the outer dev shell).
+`opencode` is the system-installed jailed launcher from the NixOS/home-manager config, not a project package. It reads `opencode.json` for the model. When `.envrc` is present, or when it is started from `nix develop`, the launcher forwards the dev-shell PATH and environment into the jail. The dev shell exports `GRADLE_OPTS` with `-Dorg.gradle.project.android.aapt2FromMavenOverride` (Gradle maps `org.gradle.project.*` JVM properties to project properties) to point AGP at the NixOS-compatible AAPT2 binary. Use `./gradlew` (not the `gradlew` shell function, which is only available in the outer dev shell).
 
 The dev shell provides `opencode-android`, a wrapper around the same system
 launcher that sets `JAIL_EXTRA_ARGS` to bind `~/.android` and the emulator

@@ -78,7 +78,10 @@
             export ANDROID_AVD_HOME="$HOME/.android/avd"
             export JAVA_HOME="${javaHome}"
             export ANDROID_AAPT2="${androidSdkPath}/build-tools/37.0.0/aapt2"
-            export GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g -Dandroid.aapt2FromMavenOverride=$ANDROID_AAPT2"
+            # AGP reads android.aapt2FromMavenOverride as a Gradle project property.
+            # Gradle maps org.gradle.project.* JVM properties to project properties,
+            # which is how we can set it from GRADLE_OPTS without adding it to gradle.properties.
+            export GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.project.android.aapt2FromMavenOverride=$ANDROID_AAPT2"
 
             # ADB server fix: ensure it talks to the outside emulator
             adb kill-server 2>/dev/null; adb start-server 2>/dev/null || true
